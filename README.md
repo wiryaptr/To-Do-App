@@ -23,9 +23,3 @@ A simple task management application built using:
 - Local Storage
 
 ## Screenshot
-
-(Add
-
-## Author
-
-Arya Wirya Putra Jatmiko
