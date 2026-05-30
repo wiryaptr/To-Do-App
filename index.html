@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class = "container">
+        <button id="darkModeBtn">Dark Mode</button>
+        <header>
+            <h1>To-Do App</h1>
+            <p>Stay Productive Today!</p>
+        </header>
+
+        <div class = "todo-input">
+
+            <input type = "text" id="taskInput" placeholder="Masukkan Tugas">
+
+            <select id="prioritySelect">
+                <option value="High">High Priority</option>
+                <option value="Medium">Medium Priority</option>
+                <option value="Low">Low Priority</option>
+            </select>
+
+            <input type="date" id="deadlineInput">
+
+            <button id="addBtn">Tambah</button> 
+        </div>
+
+        <div class="filters">
+            <button id="allBtn">All</button>
+            <button id="activeBtn">Active</button>
+            <button id="completedBtn">Completed</button>
+        </div>
+        <input type="text" id="searchInput" placeholder="Cari tugas">
+
+        <div class="progress-container">
+            <div class="progress-info">
+                <span id="progressText">
+                    0% Complete
+                </span>
+            </div>
+        </div>
+
+        <div class="progress-bar">
+            <div id="progressFill"></div>
+        </div>
+
+        <ul id="taskList">
+            <div id="emptyMessage">
+                <h3>No Tasks Yet</h3>
+                <p> Tambahkan tugas pertamamu </p>
+            </div>
+        </ul>
+        <footer>
+            <p id="taskCount">Total Tugas : 0</p>
+        </footer>
+        <div id="toast"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
