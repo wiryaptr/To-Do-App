@@ -20,6 +20,10 @@ const toast = document.getElementById("toast");
 const exportBtn = document.getElementById("exportBtn");
 const importFile = document.getElementById("importFile");
 const importBtn = document.getElementById("importBtn");
+const totalStat = document.getElementById("totalStat");
+const completedStat = document.getElementById("completedStat");
+const activeStat = document.getElementById("activeStat");
+const highPriorityStat = document.getElementById("highPriorityStat");
 
 /* ====================
    STORAGE
@@ -80,6 +84,7 @@ function attachTaskEvents(li){
         }
         saveTasks();
         updateProgress();
+        updateStats();
     });
 
     editBtn.addEventListener("click", function(){
@@ -115,6 +120,7 @@ addBtn.addEventListener("click", function(){
         deadline: deadline
     };
     tasks.push(task);
+    sortTasksData();
     renderTasks();
     showToast("Task berhasil ditambahkan!");
     taskInput.value ="";
@@ -176,7 +182,7 @@ completedBtn.addEventListener("click", function(){
 exportBtn.addEventListener("click", function(){
     const dataStr = JSON.stringify(tasks, null, 2);
     const blob = new Blob([dataStr],{ type: "application/json" });
-    const url = URL. URL.createObjectURL(blob);
+    const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
     a.download = "tasks.json";
@@ -212,7 +218,7 @@ importBtn.addEventListener("click", function(){
    UI FUNCTIONS
 ==================== */
 function updateTaskCount(){
-    const totalTasks = taskList.children.length;
+    const totalTasks = tasks.length;
     document.getElementById("taskCount").textContent = `Total Tugas : ${totalTasks}`;
     if(totalTasks === 0){
         emptyMessage.style.display = "block";
@@ -245,6 +251,46 @@ function showToast(message){
     }, 2000);
 }
 
+function updateStats(){
+    const total = tasks.length;
+    const completed = tasks.filter(function(task){
+        return task.completed;
+    }).length;
+    const active = tasks.filter(function(task){
+        return !task.completed;
+    }).length;
+    const highPriority = tasks.filter(function(task){
+        return task.priority === "High";
+    }).length;
+    totalStat.textContent = total;
+    completedStat.textContent = completed;
+    activeStat.textContent = active;
+    highPriorityStat.textContent = highPriority;
+}
+
+function sortTasksData(){
+    const priorityOrder = {
+        High: 1,
+        Medium: 2,
+        Low: 3
+    };
+    tasks.sort(function(a, b){
+        if(priorityOrder[a.priority] !== priorityOrder[b.priority]){
+            return priorityOrder[a.priority] - priorityOrder[b.priority];
+        }
+        if(a.deadline && b.deadline){
+            return new Date(a.deadline) - new Date(b.deadline);
+        }
+        if(a.deadline){
+            return -1;
+        }
+        if(b.deadline){
+            return 1;
+        }
+        return 0;
+    });
+}
+
 
 /* ====================
    EVENT LISTENERS
@@ -270,24 +316,8 @@ searchInput.addEventListener("keyup", function(){
     });
 });
 
-function sortTasks(){
-    const tasks = Array.from(document.querySelectorAll(".task"));
-    tasks.sort(function(a, b){
-        const priorityA = a.querySelector(".priority").textContent.trim();
-        const priorityB = b.querySelector(".priority").textContent.trim();
-        const order = {
-            "High": 1,
-            "Medium": 2,
-            "Low": 3
-        };
-        return order[priorityA] - order[priorityB];
-    });
-    tasks.forEach(function(task){
-        taskList.appendChild(task);
-    });
-}
-
 function renderTasks(){
+    sortTasksData();
     taskList.innerHTML = "";
     tasks.forEach(function(task){
         const li = document.createElement("li");
@@ -335,6 +365,7 @@ function renderTasks(){
     });
     updateTaskCount();
     updateProgress();
+    updateStats();
 }
 
 

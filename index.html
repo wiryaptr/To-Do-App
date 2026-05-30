@@ -37,12 +37,12 @@
 
         <div class="backup-tools">
             <button id="exportBtn">Export Tasks</button>
+            <label for="importFile" class="file-btn">
+                Pilih File
+            </label>
+            <input type="file" id="importFile" accept=".json" hidden>
+            <button id="importBtn">Import Tasks</button>
         </div>
-        
-        <input type="file" id="importFile" accept=".json">
-        <button id="importBtn">
-            Import Tasks
-        </button>
 
         <input type="text" id="searchInput" placeholder="Cari tugas">
 
@@ -58,12 +58,30 @@
             <div id="progressFill"></div>
         </div>
 
-        <ul id="taskList">
+        <div class="stats-container">
+            <div class="stat-card">
+                <h3 id="totalStat">0</h3>
+                <p>Total</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="completedStat">0</h3>
+                <p>Completed</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="activeStat">0</h3>
+                <p>Active</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="highPriorityStat">0</h3>
+                <p>High Priority</p>
+            </div>
+        </div>
+        
             <div id="emptyMessage">
                 <h3>No Tasks Yet</h3>
                 <p> Tambahkan tugas pertamamu </p>
             </div>
-        </ul>
+        <ul id="taskList"></ul>
         <footer>
             <p id="taskCount">Total Tugas : 0</p>
         </footer>
