@@ -17,6 +17,9 @@ const searchInput = document.getElementById("searchInput");
 const progressFill = document.getElementById("progressFill");
 const progressText = document.getElementById("progressText");
 const toast = document.getElementById("toast");
+const exportBtn = document.getElementById("exportBtn");
+const importFile = document.getElementById("importFile");
+const importBtn = document.getElementById("importBtn");
 
 /* ====================
    STORAGE
@@ -168,6 +171,41 @@ completedBtn.addEventListener("click", function(){
             task.style.display = "none";
         }
     });
+});
+
+exportBtn.addEventListener("click", function(){
+    const dataStr = JSON.stringify(tasks, null, 2);
+    const blob = new Blob([dataStr],{ type: "application/json" });
+    const url = URL. URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "tasks.json";
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast("Tasks berhasil diexport!");
+})
+
+importBtn.addEventListener("click", function(){
+    const file = importFile.files[0];
+    if(!file){
+        showToast("Pilih file JSON dulu!");
+        return;
+    }
+    const reader = new FileReader();
+    reader.onload = function(event){
+        try{
+            const importedTasks =
+                JSON.parse(event.target.result);
+            tasks = importedTasks;
+            saveTasks();
+            renderTasks();
+            showToast("Import berhasil!");
+        }
+        catch(error){
+            showToast("File JSON tidak valid!");
+        }
+    };
+    reader.readAsText(file);
 });
 
 /* ====================
