@@ -22,4 +22,3 @@ A simple task management application built using:
 - Import JSON
 - Local Storage
 
-## Screenshot
